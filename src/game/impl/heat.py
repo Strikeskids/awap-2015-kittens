@@ -1,7 +1,7 @@
 from .main import MainPlayer
 from collections import deque
 
-class BFSPlayer(MainPlayer):
+class HeatPlayer(MainPlayer):
 	def gaussian(self, x):
 		v = 1 / (sqrt(ORDER_VAR * 2 * pi)) * e**(-x**2/(2*ORDER_VAR))
 
