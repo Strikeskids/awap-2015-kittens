@@ -23,6 +23,7 @@ class Player(DijkstraPlayer, MainPlayer):
             else: break
         
         self.last_order_time = pending_orders[-1].time_created
+        self.update_stations()
 
         if(True):  #Check if a new station should be built
 	        station = self.findStation()
@@ -66,7 +67,7 @@ class Player(DijkstraPlayer, MainPlayer):
     	weights=[0 for i in range(len(self.hub_probs))]
 
     	for i in range(len(self.hub_probs)):
-    		weights[i]=self.hub_probs[i]-self.station_probs[i]
+    		weights[i]=self.hub_probs[i]-self.graph.node[i]["station_prob"]
 
     	for i in range(len(weights)):
     		if(weights[i]>maxProb):
