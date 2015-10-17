@@ -2,7 +2,7 @@ from .main import MainPlayer
 from collections import deque
 
 class BFSPlayer(MainPlayer):
-	def update_stations(self, new_loc):
+	def update_stations(self):
 		queue = deque()
 		queue.extendleft(stations)
 		queue.addleft(-1)
