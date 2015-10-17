@@ -45,3 +45,32 @@ class Player(DijkstraPlayer, HeatPlayer, MainPlayer, BFSPlayer):
     			ind=1
 
     	return ind
+
+    def create_station(self, state, station):
+        data = self.graph.node[station]
+        data['production'] = 0
+        data['create_time'] = state.get_time()
+        data['created_heat'] = data['heat']
+
+        self.stations.append(station)
+        self.update_stations()
+        self.clear_heat(station)
+
+    def should_build_station(self, state, candidate):
+        if len(self.stations) == 0:
+            return state.get_time() > 25
+        total_metric = 0
+        for station in self.stations:
+            data = self.graph.node[station]
+            current_metric = data['production'] * data['created_time'] \
+                    / data['created_heat'] / self.out_degree(station) \
+                    / (state.get_time() - data['created_time'])
+            total_metric += current_metric
+
+        expected_production = total_metric / len(self.stations) \
+            * self.graph.node[candidate]['heat'] \
+            * (GAME_LENGTH - state.get_time()) * self.out_degree(candidate)
+
+        build_cost = INIT_BUILD_COST * BUILD_FACTOR ** len(self.stations)
+
+        return state.get_money() > build_cost && expected_production > 2 * build_cost
