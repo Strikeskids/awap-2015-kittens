@@ -1,5 +1,5 @@
 from .main import MainPlayer
-from .djikstra import DjikstraPlayer
+from .dijkstra import DijkstraPlayer
 
-class Player(DjikstraPlayer, MainPlayer):
+class Player(DijkstraPlayer, MainPlayer):
     pass
