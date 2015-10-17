@@ -1,3 +1,6 @@
+from __future__ import print_function
+import sys
+
 from .main import MainPlayer
 from ..settings import *
 
@@ -9,10 +12,12 @@ class DijkstraPlayer(MainPlayer):
 
     def evaluate_order(self, state, order):
         step_distance = self.PRICE_CONSTANT * DECAY_FACTOR
-        cost_maximum = self.PRICE_CONSTANT * order.get_money() + PRICE_LEVEL
+        cost_maximum = self.PRICE_CONSTANT * order.get_money() + self.PRICE_LEVEL
 
         closed = dict()
         q = [(0, x, None) for x in self.stations]
+
+        print(self.stations, file=sys.__stdout__)
 
         heapify(q)
 
