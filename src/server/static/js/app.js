@@ -88,10 +88,29 @@ $(function() {
         return svg;
     }
 
+    function mm(list) {
+	min = list[0];
+	max = list[0];
+	for (var i = 0; i < list.length; i++) {
+		if (list[i] < min) {
+			min = list[i]
+		}
+		if (list [i] > max) {
+			max = list[i]
+		}
+	}
+	return {min:min, max:max};
+
+    }
+
     function updateGraph(svg, state) {
         var link = svg.selectAll('.link');
         var node = svg.selectAll('.node');
 
+	var range = mm(state.hubs);
+	node.attr('style', function(d) {
+		return "fill: #00"+Math.floor(((state.hubs[d.index]-range.min)/range.max)*255).toString(16)+"00"
+	})
         node.attr('class', function(d) {
             var c = 'node';
             if (state.buildings.indexOf(d.index) > -1) {
