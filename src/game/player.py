@@ -228,6 +228,10 @@ class Player(BasePlayer):
                     length += 1
 
     def clear_heat(self, loc):
+        for i in range(len(self.graph.node)):
+            self.graph.node[i]["heat"] = 0
+
+        return
         queue = deque()
         queue.appendleft(loc)
         queue.appendleft(-1)
@@ -235,9 +239,9 @@ class Player(BasePlayer):
         length = 2
 
         d = 0
-        limit = float("inf") # change me
+        limit = 10 # change me
 
-        eval_func = lambda x: e ** (-x*x / (SCORE_MEAN / DECAY_FACTOR)**2)
+        eval_func = lambda x:  0 + .1*x
 
         while length > 1:
             #print(queue, file=sys.__stdout__)
@@ -257,3 +261,6 @@ class Player(BasePlayer):
                     queue.appendleft(node)
                     processed.add(node)
                     length += 1
+
+    def get_probs(self):
+        return [self.graph.node[i]["heat"] for i in range(len(self.graph.node))]

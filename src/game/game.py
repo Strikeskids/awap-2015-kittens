@@ -12,6 +12,7 @@ from order import Order
 from threading import Thread
 from settings import *
 from graphs import generate_graph
+from time import time
 
 def timeout(timeout):
     def deco(func):
@@ -40,13 +41,10 @@ def timeout(timeout):
     return deco
 
 class Game:
-    def __init__(self, player_module_path, seed):
+    def __init__(self, player_module_path):
         log.basicConfig(level=LOG_LEVEL,
                         format='%(levelname)7s:%(filename)s:%(lineno)03d :: %(message)s')
-
         self.random = random.Random()
-        self.random.seed(seed)
-
         self.state = State(generate_graph())
         G = self.state.get_graph()
         for (u, v) in G.edges():
@@ -66,15 +64,18 @@ class Game:
             exit()
 
         self.player = player
+        self.random.seed()
 
         hubs = deepcopy(G.nodes())
-        self.random.shuffle(hubs)
+        random.shuffle(hubs)
         self.hubs = hubs[:HUBS]
 
     def to_dict(self):
         G = self.state.get_graph()
         dict = self.state.to_dict()
         dict['buildings'] = [i for i, x in G.node.iteritems() if x['is_station']]
+        dict['hubs'] = self.hubs
+        dict['probs'] = self.player.get_probs() 
         return dict
 
     def get_graph(self):

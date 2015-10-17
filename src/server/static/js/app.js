@@ -88,10 +88,37 @@ $(function() {
         return svg;
     }
 
+    function mm(list) {
+    min = list[0];
+    max = list[0];
+    for (var i = 0; i < list.length; i++) {
+        if (list[i] < min) {
+            min = list[i]
+        }
+        if (list [i] > max) {
+            max = list[i]
+        }
+    }
+    return {min:min, max:max};
+
+    }
+
     function updateGraph(svg, state) {
+        console.log(state)
         var link = svg.selectAll('.link');
         var node = svg.selectAll('.node');
 
+    var range = mm(state.probs);
+    node.attr('style', function(d) {
+        base = ""
+        if (state.buildings.indexOf(d.index) > -1) {
+            return "fill: black"
+        }
+        if (state.hubs.indexOf(d.index) > -1) {
+            base = "stroke: #000; stroke-width:3px; ";
+        }
+        return base+"fill: hsl("+Math.floor(((state.probs[d.index]-range.min)/(range.max-range.min))*240)+", 75%, 50%) "
+    })
         node.attr('class', function(d) {
             var c = 'node';
             if (state.buildings.indexOf(d.index) > -1) {
