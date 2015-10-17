@@ -1,7 +1,7 @@
 from .main import MainPlayer
-from .djikstra import DjikstraPlayer
+from .dijkstra import DijkstraPlayer
 
-class Player(DjikstraPlayer, MainPlayer):
+class Player(DijkstraPlayer, MainPlayer):
 
 	last_order_time=0
 
