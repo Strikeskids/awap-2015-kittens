@@ -69,7 +69,6 @@ class Game:
         hubs = deepcopy(G.nodes())
         random.shuffle(hubs)
         self.hubs = hubs[:HUBS]
-        self.hubs = [317, 336, 357]
 
     def to_dict(self):
         G = self.state.get_graph()
