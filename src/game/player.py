@@ -13,6 +13,8 @@ class Player(BasePlayer):
 
     last_order_time=0
 
+    last_heat_reset = 0
+
     PRICE_CONSTANT = 0.5
     PRICE_LEVEL = 30
 
@@ -77,6 +79,7 @@ class Player(BasePlayer):
         data = self.graph.node[station]
         data['production'] = 0
         data['created_time'] = state.get_time()
+        data['created_heat_time'] = state.get_time() - self.last_heat_reset
         data['created_heat'] = data['heat']
         data['is_station'] = True
 
@@ -86,7 +89,7 @@ class Player(BasePlayer):
         print("updating stations", file=sys.__stdout__)
         self.update_stations()
         print("clearing heat", file=sys.__stdout__)
-        self.clear_heat(station)
+        self.clear_heat(state, station)
         print("done clearing heat", file=sys.__stdout__)
 
     def should_build_station(self, state, candidate):
@@ -95,7 +98,7 @@ class Player(BasePlayer):
         total_metric = 0
         for station in self.stations:
             data = self.graph.node[station]
-            current_metric = data['production'] * data['created_time'] \
+            current_metric = data['production'] * data['created_heat_time'] \
                     / data['created_heat'] / self.graph.degree(station) \
                     / (state.get_time() - data['created_time'])
             total_metric += current_metric
@@ -227,7 +230,8 @@ class Player(BasePlayer):
                     processed.add(node)
                     length += 1
 
-    def clear_heat(self, loc):
+    def clear_heat(self, state, loc):
+        self.last_heat_reset = state.get_time()
         for i in range(len(self.graph.node)):
             self.graph.node[i]["heat"] = 0
 
