@@ -52,7 +52,7 @@ class HeatPlayer(MainPlayer):
         d = 0
         limit = float("inf") # change me
 
-        eval_func = lambda x: 1 - (self.gaussian(x) / sqrt(2 * pi * ORDER_VAR))
+        eval_func = lambda x: e ** (-x*x / (SCORE_MEAN / DECAY_FACTOR)**2)
 
         while length > 1:
             #print(queue, file=sys.__stdout__)
