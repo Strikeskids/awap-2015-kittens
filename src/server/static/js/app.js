@@ -105,10 +105,6 @@ $(function() {
 
     function updateGraph(svg, state) {
     	console.log(state)
-    	state.probs = []
-	for (var i = 0; i < 100; i++) {
-		state.probs[i] = Math.random()*1000
-	}
         var link = svg.selectAll('.link');
         var node = svg.selectAll('.node');
 
@@ -118,7 +114,7 @@ $(function() {
 		if (state.hubs.indexOf(d.index) > -1) {
 			base = "stroke: #000; stroke-width:3px; ";
 		}
-		return base+"fill: hsl("+Math.floor(((state.probs[d.index]-range.min)/range.max)*120)+", 75%, 50%) "
+		return base+"fill: hsl("+Math.floor(((state.probs[d.index]-range.min)/(range.max-range.min))*240)+", 75%, 50%) "
 	})
         node.attr('class', function(d) {
             var c = 'node';

@@ -12,6 +12,7 @@ from order import Order
 from threading import Thread
 from settings import *
 from graphs import generate_graph
+from time import time
 
 def timeout(timeout):
     def deco(func):
@@ -63,17 +64,19 @@ class Game:
             exit()
 
         self.player = player
-        self.random.seed('I am an order seed!')
+        self.random.seed()
 
         hubs = deepcopy(G.nodes())
         random.shuffle(hubs)
         self.hubs = hubs[:HUBS]
+        self.hubs = [317, 336, 357]
 
     def to_dict(self):
         G = self.state.get_graph()
         dict = self.state.to_dict()
         dict['buildings'] = [i for i, x in G.node.iteritems() if x['is_station']]
-	dict['hubs'] = self.hubs 
+	dict['hubs'] = self.hubs
+        dict['probs'] = self.player.get_probs() 
         return dict
 
     def get_graph(self):
