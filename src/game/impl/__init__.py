@@ -2,7 +2,7 @@ from .main import MainPlayer
 from .dijkstra import DijkstraPlayer
 from .bfs import BFSPlayer
 from .heat import HeatPlayer
-from settings import *
+from ..settings import *
 
 class Player(DijkstraPlayer, HeatPlayer, MainPlayer, BFSPlayer):
 
