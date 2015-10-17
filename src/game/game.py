@@ -73,6 +73,7 @@ class Game:
         G = self.state.get_graph()
         dict = self.state.to_dict()
         dict['buildings'] = [i for i, x in G.node.iteritems() if x['is_station']]
+	dict['hubs'] = self.hubs 
         return dict
 
     def get_graph(self):
