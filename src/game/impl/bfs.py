@@ -26,7 +26,7 @@ class BFSPlayer(MainPlayer):
 			self.graph.node[cur]["dist"] = d
 			self.graph.node[cur]["value"] = 1
 			groups[-1].append(cur)
-			queue.extend(self.graph.neighbors(cur))
+			queue.extendleft(self.graph.neighbors(cur))
 
 		for i in range(len(groups)-1, -1, -1):
 			for node in groups[i]:
