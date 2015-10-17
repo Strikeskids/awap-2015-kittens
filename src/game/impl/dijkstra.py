@@ -3,7 +3,7 @@ from ..settings import *
 
 from heapq import heappush, heappop, heapify
 
-class DjikstraPlayer(MainPlayer):
+class DijkstraPlayer(MainPlayer):
     PRICE_CONSTANT = 0.5
     PRICE_LEVEL = 30
 

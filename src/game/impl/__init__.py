@@ -4,6 +4,7 @@ from .dijkstra import DijkstraPlayer
 class Player(DijkstraPlayer, MainPlayer):
 
 	last_order_time=0
+	station_prob_weight=0.1
 
 	def __init__(self, state):
 		self.graph=state.get_graph()
@@ -31,6 +32,7 @@ class Player(DijkstraPlayer, MainPlayer):
 
         #Some function to find which orders to place 
         if(False):
+        	dijkstraPath=self.evaluate_order(state,state.get_pending_orders())
         	commands.append(self.find_order())
 
         return commands
@@ -62,16 +64,12 @@ class Player(DijkstraPlayer, MainPlayer):
             queue.extend(graph.neighbors(val))
 
     def findStation(self):
-    	maxProb=0
+    	maxProb=self.hub.probs[0]["heat"]
     	ind=0
-    	weights=[0 for i in range(len(self.hub_probs))]
 
     	for i in range(len(self.hub_probs)):
-    		weights[i]=self.hub_probs[i]-self.graph.node[i]["station_prob"]
-
-    	for i in range(len(weights)):
-    		if(weights[i]>maxProb):
-    			maxProb=weights[i]
-    			ind=i
+    		if(self.graph.node[i]["heat"]>maxProb):
+    			maxProb=self.graph.node[i]["heat"]
+    			ind=1
 
     	return ind
